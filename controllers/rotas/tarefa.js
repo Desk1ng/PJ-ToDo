@@ -1,8 +1,11 @@
-const model = new require ('../../models/tarefa')    
+const model = new require ('../../models/tarefa')
+const tipo = new require ('../../models/tipo')
+const usuario = new require ('../../models/usuario') 
 module.exports = (app) =>{
     let rota = 'tarefa'
     app.get(`/consultar/${rota}/:id`, async (req,res) =>{
-        let dados = req.params.id? await model.findOne({where:{id:req.params.id}}) : await model.findAll()
+        let dados = req.params.id? await model.findOne({include:[{model:usuario}, {model:tipo}]},{where:{id:req.params.id}}) :
+         await model.findAll()
     res.json(dados)
     })
     app.post(`/cadastrar/${rota}`, async (req, res)=>{
