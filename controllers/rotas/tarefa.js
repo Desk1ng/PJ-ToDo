@@ -5,7 +5,7 @@ module.exports = (app) =>{
     let rota = 'tarefa'
     app.get(`/consultar/${rota}/:id`, async (req,res) =>{
         let dados = req.params.id? await model.findOne({include:[{model:usuario}, {model:tipo}]},{where:{id:req.params.id}}) :
-         await model.findAll()
+         await model.findAll({include:[{model:tipo},{model:usuario}]})
     res.json(dados)
     })
     app.post(`/cadastrar/${rota}`, async (req, res)=>{
